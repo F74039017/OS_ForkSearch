@@ -56,7 +56,7 @@ int main(int argc, char** argv)
 	size_t avg_len = len/proc_num;
 	size_t remain = len%proc_num;
 	size_t key_len = strlen(argv[2]);
-	size_t normal_seg_len = avg_len+key_len;
+	size_t normal_seg_len = avg_len+key_len-1;
 	size_t tail_seg_len = avg_len+remain;
 	
 	/* Check prcesses and length */
@@ -111,10 +111,12 @@ int main(int argc, char** argv)
 			int result = *(rptr+i) = KMP(mptr+i*avg_len, seg_len, argv[2], istail);
 
 			//	DEBUG - CHECK SEGMENT
+			/*
 			char check[100];
 			strncpy(check, mptr+i*avg_len, seg_len);
 			check[seg_len] = '\0';
 			printf("This is child %d, result = %d, word = %s, seg_len = %zu\n", i, result, check, seg_len);
+			*/
 
 			exit(EXIT_SUCCESS);
 		}
@@ -194,10 +196,6 @@ int KMP(char* mptr, size_t blen, char* keyword, bool istail)
 		{
 			cur_pos=pi[cur_pos];
 			++count;
-
-			/* If the caller isn't tail segment and find in very copied segment => count-1 */
-			if(!istail && (i+1)==blen)
-				--count;
 		}
 	}
 	return count;
