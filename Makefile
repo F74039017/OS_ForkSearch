@@ -1,4 +1,4 @@
 all:
-	gcc search.cpp -lrt -o search
+	gcc search.c -lrt -o search
 clean:
 	rm search
